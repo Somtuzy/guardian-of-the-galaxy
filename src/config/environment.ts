@@ -1,0 +1,9 @@
+export const TOKEN = process.env.DISCORD_BOT_TOKEN!;
+export const WELCOME_CHANNEL_ID = process.env.WELCOME_CHANNEL_ID!;
+export const ONBOARDING_CATEGORY_ID = process.env.ONBOARDING_CATEGORY_ID!;
+export const INTRO_CHANNEL_ID = process.env.INTRO_CHANNEL_ID!;
+export const COMMUNITY_CHANNEL_ID = process.env.COMMUNITY_CHANNEL_ID!;
+export const WELCOME_ROLE_ID = process.env.WELCOME_ROLE_ID!;
+export const ONBOARDING_ROLE_ID = process.env.ONBOARDING_ROLE_ID!;
+export const MEMBER_ROLE_ID = process.env.MEMBER_ROLE_ID!;
+export const DISCORD_SERVER_NAME = process.env.DISCORD_SERVER_NAME || "Our Community";
