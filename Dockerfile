@@ -4,15 +4,18 @@ FROM node:18
 # 2. Set working directory
 WORKDIR /app
 
-# 3. Copy package files and install dependencies
-COPY package*.json ./
+# 3. Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# 4. Copy package files and install dependencies
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 
-# 4. Copy your code
+# 5. Copy your code
 COPY . .
 
-# 5. Build TypeScript
+# 6. Build TypeScript
 RUN pnpm build
 
-# 6. Run the bot
+# 7. Run the bot
 CMD ["pnpm", "start"]
