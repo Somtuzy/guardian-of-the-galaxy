@@ -12,7 +12,7 @@ import {
   MessageFlags,
 } from "discord.js";
 import { ExtendedClient, Command } from "./types/discord";
-import { API_VERSION, BOT_TOKEN } from "./config";
+import { API_VERSION, BOT_TOKEN, NODE_ENV } from "./config";
 import {
   handleNewMember,
   handleOnboardingMessage,
@@ -45,9 +45,11 @@ const commandFolders = fs
 
 for (const folder of commandFolders) {
   const folderPath = path.join(commandsPath, folder);
+  const fileExtension = NODE_ENV === "development" ? ".ts" : ".js"
+  console.log({NODE_ENV, fileExtension})
   const commandFiles = fs
     .readdirSync(folderPath)
-    .filter((file) => file.endsWith(".ts"));
+    .filter((file) => file.endsWith(fileExtension));
   for (const file of commandFiles) {
     const filePath = path.join(folderPath, file);
     const command: Command = require(filePath);
