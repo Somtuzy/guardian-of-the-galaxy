@@ -28,4 +28,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/guardian-of-the-galaxy:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/guardian-of-the-galaxy:${{ secrets.APP_VERSION }}
