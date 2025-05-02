@@ -66,7 +66,8 @@ bot.on("interactionCreate", handleOnboardingButton);
 bot.on("messageCreate", handleOnboardingMessage);
 bot.on("guildMemberRemove", handleMemberLeave);
 
-// Handle interactions (buttons and slash commands)ybot.on("interactionCreate", async (interaction) => {
+// Handle interactions (buttons and slash commands)
+bot.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   const command = bot.commands.get(interaction.commandName);
