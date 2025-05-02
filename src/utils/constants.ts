@@ -4,7 +4,7 @@ export const messages = {
 };
 
 export const rules = `
-Here’s a list of our ten commandments:
+Behold, the Ten Commandments:
 
 I. Thou shalt respect all members at all times — harassment, discrimination, racism, sexism, and hate speech will not be tolerated.
 
@@ -28,12 +28,13 @@ X. Thou shalt collaborate joyfully and learn with passion — rejoice in learnin
 `;
 
 export const introFormat = `
-Name: Your name
-Gender: Your gender
-Location: Your state or region
-Birthday: Your birthday (e.g., MM/DD/YYYY)
-Skill: Your primary skill or expertise
-LinkedIn: Your LinkedIn profile URL
+Name: Your fullname.\n
+Nickname: What you want us to call you.\n
+Gender: Your gender.\n
+Location: Your city/state of residence and state of origin (e.g Awka, Anambra and Enugu)\n
+Birthday: Your birthday (e.g., January 17th)\n
+Skills: Your expertise or a skill(s) you're interested in.\n
+LinkedIn: Your LinkedIn profile URL (e.g https://linkedin.com/in/geekstudiosdai)\n
 `;
 
 export function parseIntro(content: string): { [key: string]: string } {

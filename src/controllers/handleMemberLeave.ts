@@ -1,23 +1,19 @@
 import { GuildMember, PartialGuildMember, TextChannel } from "discord.js";
-import { ONBOARDING_ROLE_ID } from "../config/environment";
+import { ONBOARDING_ROLE_ID, WELCOME_ROLE_ID } from "../config/environment";
 
 // Handler for when a user leaves the server.
 export async function handleMemberLeave(member: GuildMember | PartialGuildMember) {
   try {
-    // Check if the user had the Onboarding role.
-    const hadOnboardingRole = member instanceof GuildMember
-  ? member.roles.cache.has(ONBOARDING_ROLE_ID)
-  : await member.guild.members
-      .fetch(member.id)
-      .then((fetchedMember) => fetchedMember.roles.cache.has(ONBOARDING_ROLE_ID))
-      .catch(() => false);
-      
-    if (!hadOnboardingRole) {
-      console.log(`No onboarding role for leaving user ${member.user.tag}`);
+    // Check if the user had the Onboarding related roles.
+    const hadWelcomeRole = member.roles.cache.has(WELCOME_ROLE_ID)
+    const hadOnboardingRole = member.roles.cache.has(ONBOARDING_ROLE_ID)
+    
+    if (!hadWelcomeRole && !hadOnboardingRole) {
+      console.log(`No welcome or onboarding role for leaving user ${member.user.tag}`);
       return;
     }
 
-    // Construct channel name using user data (available in both GuildMember and PartialGuildMember).
+    // Construct channel name using user data.
     const channelName = `onboarding-${member.user.username.toLowerCase()}-${member.id.slice(-4)}`;
 
     // Find the channel in the guild's cache.

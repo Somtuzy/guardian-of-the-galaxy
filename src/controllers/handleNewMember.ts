@@ -6,13 +6,12 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ChannelType,
-  PermissionsBitField
+  PermissionsBitField,
 } from "discord.js";
 import {
   ONBOARDING_CATEGORY_ID,
-  ONBOARDING_ROLE_ID,
   WELCOME_ROLE_ID,
-  DISCORD_SERVER_NAME,
+  SERVER_NAME,
 } from "../config/environment";
 import { messages, rules } from "../utils/constants";
 
@@ -20,26 +19,30 @@ import { messages, rules } from "../utils/constants";
 export async function handleNewMember(member: GuildMember) {
   try {
     // 1. Fetch roles from cache (must exist on ready).
-    const onboardingRole = member.guild.roles.cache.get(ONBOARDING_ROLE_ID);
     const welcomeRole = member.guild.roles.cache.get(WELCOME_ROLE_ID);
-    if (!onboardingRole || !welcomeRole) {
-      console.error('Onboarding or Welcome role not found.');
+    if (!welcomeRole) {
+      console.error("Welcome role not found.");
       return;
     }
-
+console.log({welcomeRole})
     // 2. Assign "Onboarding" (locks them out) + "Welcome" badge.
-    await Promise.all([
-      member.roles.add(onboardingRole),
-      member.roles.add(welcomeRole),
-    ]);
-
+    await member.roles.add(WELCOME_ROLE_ID)
+console.log({WELCOME_ROLE_ID})
     // 3. Build a deterministic channel name.
-    const channelName = `onboarding-${member.user.username.toLowerCase()}-${member.id.slice(-4)}`;
+    const channelName = `onboarding-${member.user.username.toLowerCase()}-${member.id.slice(
+      -4
+    )}`;
+    const isExistingChannel = member.guild.channels.cache.find(
+      (c) => c.name === channelName
+    ) as TextChannel;
 
     // 4. Prevent creating duplicates.
-    if (member.guild.channels.cache.find((c) => c.name === channelName)) {
-      console.log(`Channel ${channelName} already exists for ${member.user.tag}`);
-      return;
+    if (isExistingChannel) {
+      console.log(
+        `Channel ${channelName} already exists for ${member.user.tag}. Recreating channel.`
+      );
+
+      await isExistingChannel.delete()
     }
 
     // 5. Create private onboarding channel.
@@ -66,11 +69,11 @@ export async function handleNewMember(member: GuildMember) {
     // 6. Send welcome message with rules and button in private channel.
     const welcomeEmbed = new EmbedBuilder()
       .setColor("#00FF00")
-      .setTitle(`Welcome to ${DISCORD_SERVER_NAME}!`)
+      .setTitle(`Welcome to ${SERVER_NAME}!`)
       .setDescription(
         `Hey ${member.user}, welcome to our community!\n\n` +
-        rules +
-        `\n\nClick below to start your onboarding process.`
+          rules +
+          `\n\nClick below to start your onboarding process.`
       );
 
     const startButtonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -85,7 +88,10 @@ export async function handleNewMember(member: GuildMember) {
       components: [startButtonRow],
     });
 
-    console.log(`👉 Created onboarding channel ${channelName} for ${member.user.tag}`);
+    console.log(
+      `👉 Created onboarding channel ${channelName} for ${member.user.tag}`
+    );
+    return privateChannel.id;
   } catch (error) {
     console.error(`Error in handleNewMember for ${member.user.tag}:`, error);
   }

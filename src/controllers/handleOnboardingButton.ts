@@ -5,8 +5,9 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  MessageFlags,
 } from "discord.js";
-import { ONBOARDING_ROLE_ID } from "../config/environment";
+import { ONBOARDING_ROLE_ID, WELCOME_ROLE_ID } from "../config/environment";
 import { messages, introFormat } from "../utils/constants";
 
 // Handler for when the “Start Onboarding” button is clicked in the private channel.
@@ -24,19 +25,22 @@ export async function handleOnboardingButton(interaction: Interaction) {
   if (member.id !== userId) {
     return interaction.reply({
       content: "This button is not for you!",
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral
     });
   }
 
-  // Check if user has Onboarding role.
-  if (!member.roles.cache.has(ONBOARDING_ROLE_ID)) {
+  const hasOnboardingRole = member.roles.cache.has(ONBOARDING_ROLE_ID);
+  const onboardingRole = member.guild.roles.cache.get(ONBOARDING_ROLE_ID);
+
+  if (!onboardingRole) {
+    console.error("Onboarding role not found.");
     return interaction.reply({
-      content: messages.alreadyOnboarded,
-      ephemeral: true,
+      content: "Error: Onboarding role not configured.",
+      flags: MessageFlags.Ephemeral
     });
   }
 
-  // Send introduction prompt.
+  // Prepare the introduction prompt
   const introEmbed = new EmbedBuilder()
     .setColor("#FF0000")
     .setTitle(`Onboarding for ${member.user.username}`)
@@ -55,17 +59,36 @@ export async function handleOnboardingButton(interaction: Interaction) {
       .setDisabled(true)
   );
 
+  // If user already has ONBOARDING_ROLE_ID, resend the prompt without changing roles
+  if (hasOnboardingRole) {
+    await interaction.update({
+      embeds: [introEmbed],
+      components: [disabledButtonRow],
+    });
+    await interaction.followUp({
+      content: introFormat,
+      flags: MessageFlags.Ephemeral
+    });
+    console.log(`ℹ️ Onboarding prompt resent for ${member.user.tag}`);
+    return;
+  }
+
+  // Transition to onboarding state
+  await Promise.all([
+    member.roles.remove(WELCOME_ROLE_ID).catch(() => {}), // Safe removal if not present
+    member.roles.add(ONBOARDING_ROLE_ID),
+  ]);
+
   // Update the embed first.
   await interaction.update({
     embeds: [introEmbed],
     components: [disabledButtonRow],
   });
 
-  // Then send the ephemeral template message.
   await interaction.followUp({
     content: introFormat,
-    // ephemeral: true,
+    flags: MessageFlags.Ephemeral
   });
 
-  console.log(`✅ Onboarding prompt sent for ${member.user.tag}`);
+  console.log(`✅ Onboarding started for ${member.user.tag}`);
 }
