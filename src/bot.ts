@@ -46,7 +46,6 @@ const commandFolders = fs
 for (const folder of commandFolders) {
   const folderPath = path.join(commandsPath, folder);
   const fileExtension = NODE_ENV === "development" ? ".ts" : ".js"
-  console.log({NODE_ENV, fileExtension})
   const commandFiles = fs
     .readdirSync(folderPath)
     .filter((file) => file.endsWith(fileExtension));
@@ -59,7 +58,7 @@ for (const folder of commandFolders) {
 
 // Attach event handlers
 bot.once(Events.ClientReady, () => {
-  console.log(`✅ Bot is online as ${bot.user?.tag}`);
+  console.log(`✅ Bot is online as ${bot.user?.tag} 🎊`);
 });
 
 bot.on("guildMemberAdd", handleNewMember);
@@ -67,8 +66,7 @@ bot.on("interactionCreate", handleOnboardingButton);
 bot.on("messageCreate", handleOnboardingMessage);
 bot.on("guildMemberRemove", handleMemberLeave);
 
-// Handle interactions (buttons and slash commands)
-bot.on("interactionCreate", async (interaction) => {
+// Handle interactions (buttons and slash commands)ybot.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   const command = bot.commands.get(interaction.commandName);
@@ -132,7 +130,8 @@ app.get(`/api/${API_VERSION}/health`, (req, res) => {
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   startDatabase();
-  console.log(`Express server listening on port ${port}`);
+  console.info(`Express server listening on port ${port} 🎉`);
+  console.info({ NODE_ENV })
 });
 
 // Start the bot.

@@ -28,24 +28,12 @@ X. Thou shalt collaborate joyfully and learn with passion — rejoice in learnin
 `;
 
 export const introFormat = `
-Name: Your fullname.\n
-Nickname: What you want us to call you.\n
-Gender: Your gender.\n
-Location: Your city/state of residence and state of origin (e.g Awka, Anambra and Enugu)\n
-Birthday: Your birthday (e.g., January 17th)\n
+FullName: Your fullname (e.g. John Wick)\n
+NickName: What you want us to call you (e.g Odogwu)\n
+Gender: Your gender (e.g Female)\n
+Location: Your city and state of residence (e.g Awka, Anambra)\n
+State Of Origin: Where you're from (e.g Enugu State)\n
+Birthday: Your birthday (e.g. January 17th)\n
 Skills: Your expertise or a skill(s) you're interested in.\n
 LinkedIn: Your LinkedIn profile URL (e.g https://linkedin.com/in/geekstudiosdai)\n
 `;
-
-export function parseIntro(content: string): { [key: string]: string } {
-  const result: { [key: string]: string } = {};
-  const lines = content.split('\n');
-  for (const line of lines) {
-    const [key, ...valueParts] = line.split(':');
-    if (key && valueParts.length) {
-      const value = valueParts.join(':').trim();
-      result[key.trim().toLowerCase()] = value;
-    }
-  }
-  return result;
-}

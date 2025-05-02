@@ -5,19 +5,21 @@ import {
   ONBOARDING_ROLE_ID,
   MEMBER_ROLE_ID
 } from "../config/environment";
-import { introFormat, parseIntro } from "../utils/constants";
+import { introFormat, parseIntro, removeUnderScore } from "../utils";
 import {
   deleteOnboardingRoles,
   getOnboardingRoles
 } from "../models";
 
 const REQUIRED_FIELDS = [
-  "Name",
-  "Gender",
-  "Location",
-  "Birthday",
-  "Skills",
-  "LinkedIn",
+  "fullname",
+  "nickname",
+  "gender",
+  "location",
+  "state_of_origin",
+  "birthday",
+  "skills",
+  "linkedIn",
 ];
 
 // Handler for messages in any onboarding channel.
@@ -56,9 +58,9 @@ export async function handleOnboardingMessage(message: Message) {
   if (missing?.length) {
     // Tell them exactly what’s missing.
     return message.reply(
-      `Please include all fields. You’re missing: **${missing.join(
+      `Please include all fields. You’re missing: **${removeUnderScore(missing.join(
         ", "
-      )}**\n\n` +
+      ))}**\n\n` +
         "Format:\n" +
         // REQUIRED_FIELDS.map((f) => `${f}: ...`).join("\n") +
         introFormat
