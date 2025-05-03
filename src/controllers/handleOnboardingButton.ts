@@ -48,7 +48,7 @@ export async function handleOnboardingButton(interaction: Interaction) {
     .setDescription(
       `We'd like to know a little about you, Geek. Please introduce yourself using the following format:\n\n` +
         introFormat +
-        `You could optionally attach your picture\n\n` +
+        `Do not forget to attach your picture.\n\n` +
         `\nDon't panic, we've sent you an introduction template so you can copy, paste and edit in your details to avoid mistakes.`
     );
 
