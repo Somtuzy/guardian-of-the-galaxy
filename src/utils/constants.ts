@@ -4,36 +4,59 @@ export const messages = {
 };
 
 export const rules = `
-Behold, the Ten Commandments:
+Here’s how we keep things fun, safe, and awesome for everyone:
 
-I. Thou shalt respect all members at all times — harassment, discrimination, racism, sexism, and hate speech will not be tolerated.
+1. **Be Kind to Everyone**\n
+   Treat all members with respect. Harassment, discrimination, or any form of hate speech isn’t welcome here. Let’s make this a place where everyone feels valued!
 
-II. Thou shalt not spam nor promote thyself without permission — seek admin approval before sharing your business, projects, or promotions.
+2. **Promote with Permission**\n
+   Got a cool project or business to share? Awesome! Just check with the admins first to make sure it fits the vibe. No spamming, please!
 
-III. Thou shalt not share unsafe or harmful content — malicious websites, pirated materials, and dangerous links are forbidden.
+3. **Keep It Safe**\n
+   Don’t share harmful or shady stuff like malicious links, pirated content, or anything that could hurt the community. Safety first!
 
-IV. Thou shalt keep thy profile clean — do not use offensive usernames or profile pictures.
+4. **Choose a Friendly Profile**\n  
+   Pick a username and profile picture that keep things positive. Offensive or inappropriate profiles aren’t the way to go.
 
-V. Thou shalt protect the community — if you witness any wrongdoing, you should report it privately to the admins.
+5. **Look Out for Each Other**\n 
+   See something off? Let the admins know privately. Reporting helps keep our community strong and safe.
 
-VI. Thou shalt keep discussions focused — stay on topic within the right channels; when in doubt, ask the admins for guidance.
+6. **Stay on Topic**\n
+   Keep chats focused in the right channels. Not sure where to post? Ask an admin—they’re here to help!
 
-VII. Thou shalt respect differing opinions — disagree and converse objectively and don’t be condescending when someone has a different opinion.
+7. **Embrace Different Views**\n 
+   It’s okay to disagree, but keep it respectful and open-minded. Let’s learn from each other without being dismissive.
 
-VIII. Thou shalt participate and engage — bring your ideas, questions, and energy to build the community strong.
+8. **Jump In and Engage**\n
+   Share your ideas, ask questions, and bring your energy! The more you participate, the stronger our community becomes.
 
-IX. Thou shalt guard the privacy of others — personal information and private conversations should not be shared without consent.
+9. **Respect Privacy**\n
+   Don’t share anyone’s personal info or private chats without their permission. Trust is key!
 
-X. Thou shalt collaborate joyfully and learn with passion — rejoice in learning, teamwork, and the building of great things together.
+10. **Have Fun and Learn Together**\n
+   Dive into collaboration, spark new ideas, and enjoy building something amazing with the team. Let’s make great things happen!
+
+Thanks for being part of The Geek Trybe, let’s make it an awesome place together!
 `;
 
 export const introFormat = `
-FullName: Your fullname (e.g. John Wick)\n
-NickName: What you want us to call you (e.g Odogwu)\n
-Gender: Your gender (e.g Female)\n
-Location: Your city and state of residence (e.g Awka, Anambra)\n
-State Of Origin: Where you're from (e.g Enugu State)\n
-Birthday: Your birthday (e.g. January 17th)\n
-Skills: Your expertise or a skill(s) you're interested in.\n
-LinkedIn: Your LinkedIn profile URL (e.g https://linkedin.com/in/geekstudiosdai)\n
+FullName: Somtochukwu Onyeka Uzuakpunwa\n
+NickName: Somtuzy\n
+Gender: Male\n
+Location: Enugu (Coal City)\n
+State Of Origin: Anambra State\n
+Birthday: January 17th\n
+Skills: Problem Solver. Entrepreneur. Software Engineer.\n
+LinkedIn: https://linkedin.com/in/somtochukwu-onyeka-uzuakpunwa\n
+`;
+
+export const introTemplate = `
+FullName: \n
+NickName: \n
+Gender: \n
+Location: \n
+State Of Origin: \n
+Birthday: \n
+Skills: \n
+LinkedIn: \n
 `;

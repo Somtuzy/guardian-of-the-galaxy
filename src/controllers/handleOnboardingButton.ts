@@ -8,10 +8,11 @@ import {
   MessageFlags,
 } from "discord.js";
 import { ONBOARDING_ROLE_ID, WELCOME_ROLE_ID } from "../config/environment";
-import { messages, introFormat } from "../utils/constants";
+import { introFormat, introTemplate } from "../utils/constants";
 
 // Handler for when the “Start Onboarding” button is clicked in the private channel.
 export async function handleOnboardingButton(interaction: Interaction) {
+  try {
   if (
     !interaction.isButton() ||
     !interaction.customId.startsWith("start_onboarding_")
@@ -42,12 +43,13 @@ export async function handleOnboardingButton(interaction: Interaction) {
 
   // Prepare the introduction prompt
   const introEmbed = new EmbedBuilder()
-    .setColor("#FF0000")
+    .setColor("#3E91E9")
     .setTitle(`Onboarding for ${member.user.username}`)
     .setDescription(
-      `Please provide your introduction in the following format:\n\n` +
+      `We'd like to know a little about you, Geek. Please introduce yourself using the following format:\n\n` +
         introFormat +
-        `\n\nYou can copy the template from the message below and change the samples to your specific details.`
+        `You could optionally attach your picture\n\n` +
+        `\nDon't panic, we've sent you an introduction template so you can copy, paste and edit in your details to avoid mistakes.`
     );
 
   // Disable the button.
@@ -86,9 +88,12 @@ export async function handleOnboardingButton(interaction: Interaction) {
   });
 
   await interaction.followUp({
-    content: introFormat,
+    content: introTemplate,
     flags: MessageFlags.Ephemeral
   });
 
   console.log(`✅ Onboarding started for ${member.user.tag}`);
+} catch(error) {
+  console.error("Error in handleOnboardButton", { error });
+}
 }

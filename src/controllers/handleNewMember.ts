@@ -13,7 +13,7 @@ import {
   WELCOME_ROLE_ID,
   SERVER_NAME,
 } from "../config/environment";
-import { messages, rules } from "../utils/constants";
+import { rules } from "../utils/constants";
 
 // Handler for when a new user joins the guild.
 export async function handleNewMember(member: GuildMember) {
@@ -24,10 +24,10 @@ export async function handleNewMember(member: GuildMember) {
       console.error("Welcome role not found.");
       return;
     }
-console.log({welcomeRole})
-    // 2. Assign "Onboarding" (locks them out) + "Welcome" badge.
+
+    // 2. Assign welcome role to hide all content.
     await member.roles.add(WELCOME_ROLE_ID)
-console.log({WELCOME_ROLE_ID})
+
     // 3. Build a deterministic channel name.
     const channelName = `onboarding-${member.user.username.toLowerCase()}-${member.id.slice(
       -4
@@ -39,7 +39,7 @@ console.log({WELCOME_ROLE_ID})
     // 4. Prevent creating duplicates.
     if (isExistingChannel) {
       console.log(
-        `Channel ${channelName} already exists for ${member.user.tag}. Recreating channel.`
+        `Channel ${channelName} already exists for ${member.user.tag}. Recreating channel...👀`
       );
 
       await isExistingChannel.delete()
@@ -68,17 +68,17 @@ console.log({WELCOME_ROLE_ID})
 
     // 6. Send welcome message with rules and button in private channel.
     const welcomeEmbed = new EmbedBuilder()
-      .setColor("#00FF00")
+      .setColor("#3E91E9")
       .setTitle(`Welcome to ${SERVER_NAME}!`)
       .setDescription(
-        `Hey ${member.user}, welcome to our community!\n\n` +
+        `Hey, ${member.user}. Welcome to The Geek Trybe!\n\n` +
           rules +
           `\n\nClick below to start your onboarding process.`
       );
 
     const startButtonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setCustomId(`start_onboarding_${member.id}`) // User-specific customId
+        .setCustomId(`start_onboarding_${member.id}`)
         .setLabel("Start Onboarding")
         .setStyle(ButtonStyle.Success)
     );

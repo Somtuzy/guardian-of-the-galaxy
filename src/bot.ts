@@ -4,13 +4,13 @@ import path from "node:path";
 import morgan from "morgan"
 import cors from "cors"
 import helmet from "helmet"
-
 import {
   Events,
   GatewayIntentBits,
   IntentsBitField,
   MessageFlags,
 } from "discord.js";
+
 import { ExtendedClient, Command } from "./types/discord";
 import { API_VERSION, BOT_TOKEN, NODE_ENV } from "./config";
 import {
@@ -22,7 +22,6 @@ import {
 import { startDatabase } from "./config";
 import "./wakey";
 import { ping } from "./controllers/ping";
-
 
 // Initialize bot with required intents
 export const bot = new ExtendedClient({
@@ -125,6 +124,20 @@ app.get(`/api/${API_VERSION}/ping`, ping);
 
 app.get(`/api/${API_VERSION}/health`, (req, res) => {
   res.sendStatus(200);
+});
+
+app.get(`/api/${API_VERSION}/`, (req, res) => {
+  try {
+     throw new Error("heyy")
+  } catch (error) {
+    console.error("Error: in bot.ts", { error });
+    
+  }
+ 
+  res.status(200).json({
+    success: true,
+    message: "Bot is running..."
+  });
 });
 
 // Start the Express server on the port provided by Render (or default to 3000 locally)
