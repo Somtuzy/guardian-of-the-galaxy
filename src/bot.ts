@@ -22,6 +22,7 @@ import {
 import { startDatabase } from "./config";
 import "./wakey";
 import { ping } from "./controllers/ping";
+import { handleBirthdayMessage } from "./controllers/handleBirthdayMessage";
 
 // Initialize bot with required intents
 export const bot = new ExtendedClient({
@@ -63,6 +64,7 @@ bot.once(Events.ClientReady, () => {
 bot.on("guildMemberAdd", handleNewMember);
 bot.on("interactionCreate", handleOnboardingButton);
 bot.on("messageCreate", handleOnboardingMessage);
+bot.on("messageCreate", handleBirthdayMessage);
 bot.on("guildMemberRemove", handleMemberLeave);
 
 // Handle interactions (buttons and slash commands)
