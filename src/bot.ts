@@ -10,6 +10,7 @@ import {
   IntentsBitField,
   MessageFlags,
 } from "discord.js";
+import { Agent } from "undici";
 
 import { ExtendedClient, Command } from "./types/discord";
 import { API_VERSION, BOT_TOKEN, NODE_ENV } from "./config";
@@ -32,7 +33,7 @@ export const bot = new ExtendedClient({
     IntentsBitField.Flags.GuildMessages,
     IntentsBitField.Flags.MessageContent,
     GatewayIntentBits.Guilds,
-  ],
+  ]
 });
 
 // Load commands from the commands directory

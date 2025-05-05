@@ -7,13 +7,17 @@ import {
   ButtonStyle,
   ChannelType,
   PermissionsBitField,
+  AttachmentBuilder,
 } from "discord.js";
 import {
   ONBOARDING_CATEGORY_ID,
   WELCOME_ROLE_ID,
   SERVER_NAME,
-} from "../config/environment";
+  ONBOARDING_VIDEO_URL,
+} from "../config";
 import { rules } from "../utils/constants";
+import { join } from "path";
+import { existsSync } from "fs";
 
 // Handler for when a new user joins the guild.
 export async function handleNewMember(member: GuildMember) {
@@ -26,7 +30,7 @@ export async function handleNewMember(member: GuildMember) {
     }
 
     // 2. Assign welcome role to hide all content.
-    await member.roles.add(WELCOME_ROLE_ID)
+    await member.roles.add(WELCOME_ROLE_ID);
 
     // 3. Build a deterministic channel name.
     const channelName = `onboarding-${member.user.username.toLowerCase()}-${member.id.slice(
@@ -42,7 +46,7 @@ export async function handleNewMember(member: GuildMember) {
         `Channel ${channelName} already exists for ${member.user.tag}. Recreating channel...👀`
       );
 
-      await isExistingChannel.delete()
+      await isExistingChannel.delete();
     }
 
     // 5. Create private onboarding channel.
@@ -66,6 +70,21 @@ export async function handleNewMember(member: GuildMember) {
       ],
     });
 
+    // console.log(1);
+
+    // let videoAttachment: AttachmentBuilder | null = null;
+    // const videoPath = join(__dirname, "..", "assets", "onboarding.mp4");
+    // try {
+    //   if (existsSync(videoPath)) {
+    //     videoAttachment = new AttachmentBuilder(videoPath, {
+    //       name: "onboarding.mp4",
+    //     });
+    //   } else {
+    //     console.error(`Welcome video not found at ${videoPath}`);
+    //   }
+    // } catch (error) {
+    //   console.error(`Error fetching video from ${videoPath}:, error`);
+    // }
     // 6. Send welcome message with rules and button in private channel.
     const welcomeEmbed = new EmbedBuilder()
       .setColor("#3E91E9")
@@ -83,15 +102,22 @@ export async function handleNewMember(member: GuildMember) {
         .setStyle(ButtonStyle.Success)
     );
 
-    await privateChannel.send({
-      embeds: [welcomeEmbed],
-      components: [startButtonRow],
-    });
+    // console.log(5, { videoAttachment });
 
-    console.log(
-      `👉 Created onboarding channel ${channelName} for ${member.user.tag}`
-    );
-    return privateChannel.id;
+    try {
+      await privateChannel.send({
+        embeds: [welcomeEmbed],
+        components: [startButtonRow],
+        // files: videoAttachment ? [videoAttachment] : [],
+      });
+
+      console.log(
+        `👉 Created onboarding channel ${channelName} for ${member.user.tag}`
+      );
+      return privateChannel.id;
+    } catch (error) {
+      console.error(`Error sending message to channel:`, { error });
+    }
   } catch (error) {
     console.error(`Error in handleNewMember for ${member.user.tag}:`, error);
   }
