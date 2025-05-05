@@ -46,7 +46,7 @@ const REQUIRED_FIELDS = [
   "state of origin",
   "birthday",
   "skills",
-  "linkedIn",
+  "linkedin",
 ];
 
 interface ParseResult {
