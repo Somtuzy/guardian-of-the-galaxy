@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder, Message } from "discord.js";
 import { WebhookClient } from "discord.js";
 import {
   BIRTHDAY_AVATAR_URL,
@@ -6,12 +6,20 @@ import {
   BIRTHDAY_CHANNEL_ID,
   BIRTHDAY_CHANNEL_WEBHOOK_ID,
   BIRTHDAY_CHANNEL_WEBHOOK_TOKEN,
-  BIRTHDAY_GIF_URL,
+  THE_GEEK_TRYBE_CHANNEL_WEBHOOK_ID,
+  THE_GEEK_TRYBE_CHANNEL_WEBHOOK_TOKEN
 } from "../config";
+import { getBirthdayContent } from "../utils";
+import path from "path";
 
 const birthdayWebhook = new WebhookClient({
   id: BIRTHDAY_CHANNEL_WEBHOOK_ID,
   token: BIRTHDAY_CHANNEL_WEBHOOK_TOKEN,
+});
+
+const theGeekTrybeWebhook = new WebhookClient({
+  id: THE_GEEK_TRYBE_CHANNEL_WEBHOOK_ID,
+  token: THE_GEEK_TRYBE_CHANNEL_WEBHOOK_TOKEN,
 });
 
 /**
@@ -56,15 +64,11 @@ export async function handleBirthdayMessage(msg: Message) {
 
     if (!mention) return
 
-    // Create custom message
-    const content =
-      `\n\n` +
-      `Happy Birthday, ${mention}! 🎉\n\n` +
-      `We wish you lots of joy and all the geeky goodness life has to offer. Have an amazing year ahead! 🎊 \n\n` +
-      `_Make a wish, the birthday genie is listening 🥳_\n`;
-
+    const birthdayWish = getBirthdayContent()
+    // const birthdayGif = new AttachmentBuilder(birthdayWish.gif);
+    
     // Delete original and repost
-    await Promise.all([
+    await Promise.allSettled([
       msg.delete(),
       birthdayWebhook.send({
         username: "birthday genie",
@@ -73,11 +77,17 @@ export async function handleBirthdayMessage(msg: Message) {
           new EmbedBuilder()
             .setColor("#3E91E9")
             .setTitle(`Birthday Announcement 🎂 🎁`)
-            .setDescription(content)
-            .setImage(BIRTHDAY_GIF_URL)
+            .setDescription(birthdayWish.getMessage(mention))
+            .setImage(birthdayWish.gif)
             .setTimestamp(),
         ],
       }),
+      // theGeekTrybeWebhook.send({
+      //   username: "birthday genie",
+      //   avatarURL: BIRTHDAY_AVATAR_URL,
+      //   content: birthdayWish.getMessage(mention),
+      //   files: [birthdayWish.gif]
+      // })
     ]);
   } catch (err) {
     console.error("Failed to handle birthday message:", err);

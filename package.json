@@ -32,6 +32,7 @@
     "@types/express": "^5.0.1",
     "@types/lodash": "^4.17.16",
     "@types/morgan": "^1.9.9",
+    "@types/node": "^22.15.8",
     "ts-node": "^10.9.2"
   }
 }
