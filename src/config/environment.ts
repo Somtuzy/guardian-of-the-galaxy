@@ -16,4 +16,5 @@ export const SERVER_URL = process.env.SERVER_URL!
 export const TIME_TO_PING = parseFloat(process.env.TIME_TO_PING!)
 export const API_VERSION = process.env.API_VERSION!
 export const SPEAKER_ROLE_ID = process.env.SPEAKER_ROLE_ID!
+export const COMMUNITY_MANAGER_ROLE_ID = process.env.COMMUNITY_MANAGER_ROLE_ID!
 export const NODE_ENV = process.env.NODE_ENV!

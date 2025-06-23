@@ -12,6 +12,7 @@ import {
   ONBOARDING_CATEGORY_ID,
   WELCOME_ROLE_ID,
   SERVER_NAME,
+  COMMUNITY_MANAGER_ROLE_ID,
 } from "../config/environment";
 import { rules } from "../utils/constants";
 
@@ -62,6 +63,14 @@ export async function handleNewMember(member: GuildMember) {
         {
           id: member.guild.roles.everyone.id,
           deny: [PermissionsBitField.Flags.ViewChannel],
+        },
+        {
+          id: COMMUNITY_MANAGER_ROLE_ID,
+          allow: [
+            PermissionsBitField.Flags.ViewChannel,
+            PermissionsBitField.Flags.SendMessages,
+            PermissionsBitField.Flags.ReadMessageHistory,
+          ],
         },
       ],
     });
