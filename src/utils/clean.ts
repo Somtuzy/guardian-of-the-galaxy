@@ -39,14 +39,14 @@ const fields = {
 }
 
 const REQUIRED_FIELDS = [
-  "FullName",
-  "NickName",
-  "Gender",
-  "Location",
-  "State Of Origin",
-  "Birthday",
-  "Skills",
-  "LinkedIn",
+  "fullname",
+  "nickname",
+  "gender",
+  "location",
+  "state of origin",
+  "birthday",
+  "skills",
+  "linkedin",
 ];
 
 interface ParseResult {
@@ -90,7 +90,7 @@ export function parseIntro(content: string): ParseResult {
     }
 
     const [_, field, value] = match;
-    const trimmedField = field.trim();
+    const trimmedField = field.toLowerCase().trim();
     const trimmedValue = value.trim();
     console.log({ _, field, value, trimmedField, trimmedValue});
     

@@ -10,6 +10,7 @@ import {
   IntentsBitField,
   MessageFlags,
 } from "discord.js";
+import { Agent } from "undici";
 
 import { ExtendedClient, Command } from "./types/discord";
 import { API_VERSION, BOT_TOKEN, NODE_ENV } from "./config";
@@ -22,6 +23,7 @@ import {
 import { startDatabase } from "./config";
 import "./wakey";
 import { ping } from "./controllers/ping";
+import { handleBirthdayMessage } from "./controllers/handleBirthdayMessage";
 
 // Initialize bot with required intents
 export const bot = new ExtendedClient({
@@ -31,7 +33,7 @@ export const bot = new ExtendedClient({
     IntentsBitField.Flags.GuildMessages,
     IntentsBitField.Flags.MessageContent,
     GatewayIntentBits.Guilds,
-  ],
+  ]
 });
 
 // Load commands from the commands directory
@@ -63,6 +65,7 @@ bot.once(Events.ClientReady, () => {
 bot.on("guildMemberAdd", handleNewMember);
 bot.on("interactionCreate", handleOnboardingButton);
 bot.on("messageCreate", handleOnboardingMessage);
+bot.on("messageCreate", handleBirthdayMessage);
 bot.on("guildMemberRemove", handleMemberLeave);
 
 // Handle interactions (buttons and slash commands)

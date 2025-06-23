@@ -1,3 +1,5 @@
+import { birthdayGifs, birthdayMessages } from "../config";
+
 export const messages = {
   alreadyOnboarded: "You’ve already started onboarding!",
   channelExists: "Your onboarding channel already exists!",
@@ -60,3 +62,14 @@ Birthday: \n
 Skills: \n
 LinkedIn: \n
 `;
+
+export function getBirthdayContent() {
+  const indexOfMsg = Math.ceil(Math.random() * (Object.keys(birthdayMessages).length) - 1) + 1;
+  const indexOfGif = Math.ceil(Math.random() * (birthdayGifs.length - 1));
+  console.log("values:", {indexOfMsg, indexOfGif});
+  
+  return {
+    getMessage: birthdayMessages[indexOfMsg],
+    gif: birthdayGifs[indexOfGif],
+  };
+}
